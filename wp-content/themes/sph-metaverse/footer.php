@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying the footer
  *
@@ -7,75 +8,53 @@
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
  * @package WordPress
- * @subpackage Twenty_Twenty_One
- * @since Twenty Twenty-One 1.0
+ * 
  */
 
 ?>
-			</main><!-- #main -->
-		</div><!-- #primary -->
-	</div><!-- #content -->
 
-	<?php get_template_part( 'template-parts/footer/footer-widgets' ); ?>
+<?php if (have_rows('footer', 'option')) : ?>
 
-	<footer id="colophon" class="site-footer">
+	<?php while (have_rows('footer', 'option')) : the_row(); ?>
 
-		<?php if ( has_nav_menu( 'footer' ) ) : ?>
-			<nav aria-label="<?php esc_attr_e( 'Secondary menu', 'twentytwentyone' ); ?>" class="footer-navigation">
-				<ul class="footer-navigation-wrapper">
-					<?php
-					wp_nav_menu(
-						array(
-							'theme_location' => 'footer',
-							'items_wrap'     => '%3$s',
-							'container'      => false,
-							'depth'          => 1,
-							'link_before'    => '<span>',
-							'link_after'     => '</span>',
-							'fallback_cb'    => false,
-						)
-					);
-					?>
-				</ul><!-- .footer-navigation-wrapper -->
-			</nav><!-- .footer-navigation -->
-		<?php endif; ?>
-		<div class="site-info">
-			<div class="site-name">
-				<?php if ( has_custom_logo() ) : ?>
-					<div class="site-logo"><?php the_custom_logo(); ?></div>
-				<?php else : ?>
-					<?php if ( get_bloginfo( 'name' ) && get_theme_mod( 'display_title_and_tagline', true ) ) : ?>
-						<?php if ( is_front_page() && ! is_paged() ) : ?>
-							<?php bloginfo( 'name' ); ?>
-						<?php else : ?>
-							<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a>
-						<?php endif; ?>
-					<?php endif; ?>
-				<?php endif; ?>
-			</div><!-- .site-name -->
+		<footer class="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="footer_logo">
+							<a href=""><img src="<?php echo get_sub_field('logo'); ?>" alt=""></a>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<p><?php echo get_sub_field('copywrite'); ?></p>
+					</div>
+					<div class="col-md-3">
+						<div class="footer_social_icon">
 
-			<?php
-			if ( function_exists( 'the_privacy_policy_link' ) ) {
-				the_privacy_policy_link( '<div class="privacy-policy">', '</div>' );
-			}
-			?>
+							<?php if (have_rows('socialmedia')) : ?>
+								<ul>
+									<?php while (have_rows('socialmedia', 'option')) : the_row(); ?>
 
-			<div class="powered-by">
-				<?php
-				printf(
-					/* translators: %s: WordPress. */
-					esc_html__( 'Proudly powered by %s.', 'twentytwentyone' ),
-					'<a href="' . esc_url( __( 'https://wordpress.org/', 'twentytwentyone' ) ) . '">WordPress</a>'
-				);
-				?>
-			</div><!-- .powered-by -->
+										<li><a href="<?php echo get_sub_field('link'); ?>"><img src="<?php echo get_sub_field('icon'); ?>"></a></li>
 
-		</div><!-- .site-info -->
-	</footer><!-- #colophon -->
+									<?php endwhile; ?>
+								</ul>
+							<?php endif; ?>
 
-</div><!-- #page -->
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+	<?php endwhile; ?>
+
+<?php endif; ?>
 
 <?php wp_footer(); ?>
 
 </body>
+
 </html>
